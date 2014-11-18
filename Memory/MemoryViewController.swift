@@ -43,13 +43,22 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier("cardCell", forIndexPath: indexPath) as CardCell
         cell.backgroundColor = UIColor.clearColor()
        
-        cell.imageView.image = UIImage(named: "back")
+        cell.renderCardName("2_of_clubs", backImageName: "back")
         
         return cell
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as CardCell
+        cell.show()
         
+        let delay = 5.0
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), {cell.hide()})
     }
 }
 
