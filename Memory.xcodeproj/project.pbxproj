@@ -14,6 +14,7 @@
 		EEBAF4041A1BE54700229B37 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEBAF4021A1BE54700229B37 /* LaunchScreen.xib */; };
 		EEBAF4101A1BE54700229B37 /* MemoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBAF40F1A1BE54700229B37 /* MemoryTests.swift */; };
 		EEBAF41A1A1BF6C300229B37 /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBAF4191A1BF6C300229B37 /* CardCell.swift */; };
+		EEE4C1711A1CE2BF0088AD6F /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE4C1701A1CE2BF0088AD6F /* Cards.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		EEBAF40E1A1BE54700229B37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EEBAF40F1A1BE54700229B37 /* MemoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryTests.swift; sourceTree = "<group>"; };
 		EEBAF4191A1BF6C300229B37 /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
+		EEE4C1701A1CE2BF0088AD6F /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 				EEBAF3F91A1BE54700229B37 /* AppDelegate.swift */,
 				EEBAF3FB1A1BE54700229B37 /* MemoryViewController.swift */,
 				EEBAF4191A1BF6C300229B37 /* CardCell.swift */,
+				EEE4C1701A1CE2BF0088AD6F /* Cards.swift */,
 				EEBAF3FD1A1BE54700229B37 /* Main.storyboard */,
 				EEBAF4001A1BE54700229B37 /* Images.xcassets */,
 				EEBAF4021A1BE54700229B37 /* LaunchScreen.xib */,
@@ -218,6 +221,7 @@
 				EEBAF3FC1A1BE54700229B37 /* MemoryViewController.swift in Sources */,
 				EEBAF3FA1A1BE54700229B37 /* AppDelegate.swift in Sources */,
 				EEBAF41A1A1BF6C300229B37 /* CardCell.swift in Sources */,
+				EEE4C1711A1CE2BF0088AD6F /* Cards.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +413,7 @@
 				EEBAF4151A1BE54700229B37 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EEBAF4161A1BE54700229B37 /* Build configuration list for PBXNativeTarget "MemoryTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +422,7 @@
 				EEBAF4181A1BE54700229B37 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

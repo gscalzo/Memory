@@ -9,9 +9,9 @@
 import UIKit
 
 class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    var collectionView: UICollectionView?
-    var cellColor = false
-
+    private var collectionView: UICollectionView?
+    private var deck: Deck!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -28,6 +28,10 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
         collectionView!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(collectionView!)
         collectionView!.backgroundColor = UIColor.greenColor()
+        
+        let fullDeck = Deck.full().shuffled()
+        let halfDeck = fullDeck.deckOfNumberOfCards(12)
+        deck = (halfDeck + halfDeck).shuffled()
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,14 +40,15 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
     }
     
      func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 24
+        return deck.count()
     }
     
      func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier("cardCell", forIndexPath: indexPath) as CardCell
         cell.backgroundColor = UIColor.clearColor()
        
-        cell.renderCardName("2_of_clubs", backImageName: "back")
+        let card = deck[indexPath.row]
+        cell.renderCardName(card.description, backImageName: "back")
         
         return cell
     }
