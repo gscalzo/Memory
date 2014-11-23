@@ -13,6 +13,8 @@ class CardCell: UICollectionViewCell {
     private var cardImageName: String!
     private var backImageName: String!
     
+    var card: Card!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
