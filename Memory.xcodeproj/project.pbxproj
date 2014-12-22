@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE8142051A48741800B5E1C3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8142041A48741800B5E1C3 /* ViewController.swift */; };
+		EE8142071A487CBB00B5E1C3 /* UIColor+Flat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8142061A487CBB00B5E1C3 /* UIColor+Flat.swift */; };
 		EEBAF3FA1A1BE54700229B37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBAF3F91A1BE54700229B37 /* AppDelegate.swift */; };
 		EEBAF3FC1A1BE54700229B37 /* MemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBAF3FB1A1BE54700229B37 /* MemoryViewController.swift */; };
 		EEBAF3FF1A1BE54700229B37 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EEBAF3FD1A1BE54700229B37 /* Main.storyboard */; };
@@ -28,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EE8142041A48741800B5E1C3 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EE8142061A487CBB00B5E1C3 /* UIColor+Flat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Flat.swift"; sourceTree = "<group>"; };
 		EEBAF3F41A1BE54700229B37 /* Memory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEBAF3F81A1BE54700229B37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EEBAF3F91A1BE54700229B37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				EEBAF3F91A1BE54700229B37 /* AppDelegate.swift */,
+				EE8142041A48741800B5E1C3 /* ViewController.swift */,
 				EEBAF3FB1A1BE54700229B37 /* MemoryViewController.swift */,
 				EEBAF4191A1BF6C300229B37 /* CardCell.swift */,
 				EEE4C1701A1CE2BF0088AD6F /* Cards.swift */,
@@ -89,6 +94,7 @@
 				EEBAF4001A1BE54700229B37 /* Images.xcassets */,
 				EEBAF4021A1BE54700229B37 /* LaunchScreen.xib */,
 				EEBAF3F71A1BE54700229B37 /* Supporting Files */,
+				EE8142061A487CBB00B5E1C3 /* UIColor+Flat.swift */,
 			);
 			path = Memory;
 			sourceTree = "<group>";
@@ -218,9 +224,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE8142051A48741800B5E1C3 /* ViewController.swift in Sources */,
 				EEBAF3FC1A1BE54700229B37 /* MemoryViewController.swift in Sources */,
 				EEBAF3FA1A1BE54700229B37 /* AppDelegate.swift in Sources */,
 				EEBAF41A1A1BF6C300229B37 /* CardCell.swift in Sources */,
+				EE8142071A487CBB00B5E1C3 /* UIColor+Flat.swift in Sources */,
 				EEE4C1711A1CE2BF0088AD6F /* Cards.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

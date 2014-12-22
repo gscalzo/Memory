@@ -39,6 +39,7 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         layout.itemSize = CGSize(width: 60, height: 60*1.452)
         layout.minimumLineSpacing = 5
+        
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView!.dataSource = self
         collectionView!.delegate = self
@@ -61,7 +62,7 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
     
     private func createDeck() -> Deck {
         let fullDeck = Deck.full().shuffled()
-        let halfDeck = fullDeck.deckOfNumberOfCards(12)
+        let halfDeck = fullDeck.deckOfNumberOfCards(4)
         return (halfDeck + halfDeck).shuffled()
     }
     
