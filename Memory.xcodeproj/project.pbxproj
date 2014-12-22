@@ -86,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				EEBAF3F91A1BE54700229B37 /* AppDelegate.swift */,
+				EE8142061A487CBB00B5E1C3 /* UIColor+Flat.swift */,
 				EE8142041A48741800B5E1C3 /* ViewController.swift */,
 				EEBAF3FB1A1BE54700229B37 /* MemoryViewController.swift */,
 				EEBAF4191A1BF6C300229B37 /* CardCell.swift */,
@@ -94,7 +95,6 @@
 				EEBAF4001A1BE54700229B37 /* Images.xcassets */,
 				EEBAF4021A1BE54700229B37 /* LaunchScreen.xib */,
 				EEBAF3F71A1BE54700229B37 /* Supporting Files */,
-				EE8142061A487CBB00B5E1C3 /* UIColor+Flat.swift */,
 			);
 			path = Memory;
 			sourceTree = "<group>";
