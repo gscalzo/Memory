@@ -27,33 +27,27 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
     private var firstCard: CardCell?
     private var secondCard: CardCell?
     private var numberOfPairs = 0
-    private var numberOfTries = 0
+    private var numberOfGuesses = 0
+    private var difficulty = Difficulty.Easy
     
+    init(difficulty: Difficulty) {
+        self.difficulty = difficulty
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        view.backgroundColor = UIColor.greenColor()
-        
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        layout.itemSize = CGSize(width: 60, height: 60*1.452)
-        layout.minimumLineSpacing = 5
-        
-        collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionView!.dataSource = self
-        collectionView!.delegate = self
-        collectionView!.registerClass(CardCell.self, forCellWithReuseIdentifier: "cardCell")
-        collectionView!.backgroundColor = UIColor.whiteColor()
-        self.view.addSubview(collectionView!)
-        collectionView!.backgroundColor = UIColor.greenColor()
-        
+        setup()
         start()
     }
     
     private func start() {
         numberOfPairs = 0
-        numberOfTries = 0
+        numberOfGuesses = 0
 
         deck = createDeck()
         cardVisibility = Array<Bool>(count: deck.count(), repeatedValue: true)
@@ -62,14 +56,10 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
     
     private func createDeck() -> Deck {
         let fullDeck = Deck.full().shuffled()
-        let halfDeck = fullDeck.deckOfNumberOfCards(4)
+        let halfDeck = fullDeck.deckOfNumberOfCards(numCardsNeededDifficulty(difficulty))
         return (halfDeck + halfDeck).shuffled()
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return deck.count()
@@ -100,7 +90,7 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
         }
         
         cell.show()
-        numberOfTries++
+        numberOfGuesses++
         
         if firstCard != nil && secondCard != nil {
             if firstCard!.card == secondCard!.card {
@@ -114,10 +104,10 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
                         self.numberOfPairs++
                         if self.numberOfPairs == self.deck.count()/2 {
                             var alert = UIAlertController(title: "Great!",
-                                message: "You won in \(self.numberOfTries/2) tries!",
+                                message: "You won in \(self.numberOfGuesses/2) guesses!",
                                 preferredStyle: UIAlertControllerStyle.Alert)
                             alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
-                                self.start()
+                                self.dismissViewControllerAnimated(true, completion: nil)
                                 return
                             }))
                                 
@@ -150,6 +140,61 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
             }
         }
         
+    }
+    
+    deinit{
+        println("deinit")
+    }
+}
+
+private extension MemoryViewController {
+    func sizeDifficulty(difficulty: Difficulty) -> (CGFloat, CGFloat) {
+        switch difficulty {
+        case .Easy:
+            return (4,3)
+        case .Medium:
+            return (6,4)
+        case .Hard:
+            return (8,4)
+        }
+    }
+    
+    func numCardsNeededDifficulty(difficulty: Difficulty) -> Int {
+        let (columns, rows) = sizeDifficulty(difficulty)
+        return Int(columns * rows / 2)
+    }
+}
+
+private extension MemoryViewController {
+    func setup() {
+        view.backgroundColor = UIColor.greenSea()
+        
+        let (columns, rows) = sizeDifficulty(difficulty)
+        
+        let ratio: CGFloat = 1.452
+        let space: CGFloat = 5
+        
+        let cardHeight: CGFloat = view.frame.height/rows - 2*space
+        let cardWidth: CGFloat = cardHeight/ratio
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
+        layout.itemSize = CGSize(width: cardWidth, height: cardHeight)
+        layout.minimumLineSpacing = space
+        
+        
+        let width = columns*(cardWidth + 2*space)
+        let height = rows*(cardHeight + space)
+        
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: width, height: height), collectionViewLayout: layout)
+        collectionView!.center = view.center
+        collectionView!.dataSource = self
+        collectionView!.delegate = self
+        collectionView!.scrollEnabled = false
+        collectionView!.registerClass(CardCell.self, forCellWithReuseIdentifier: "cardCell")
+        collectionView!.backgroundColor = UIColor.clearColor()
+        
+        self.view.addSubview(collectionView!)
     }
 }
 

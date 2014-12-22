@@ -46,14 +46,19 @@ private extension ViewController {
 
 extension ViewController {
     func onEasyTapped(sender: UIButton) {
-        println("Easy")
+        newGameDifficulty(.Easy)
     }
     
     func onMediumTapped(sender: UIButton) {
-        println("Medium")
+        newGameDifficulty(.Medium)
     }
     
     func onHardTapped(sender: UIButton) {
-        println("Hard")
+        newGameDifficulty(.Hard)
+    }
+    
+    func newGameDifficulty(difficulty: Difficulty) {
+        let gameViewController = MemoryViewController(difficulty: difficulty)
+        presentViewController(gameViewController, animated: true, completion: nil)
     }
 }
