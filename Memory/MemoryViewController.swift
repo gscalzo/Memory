@@ -25,12 +25,11 @@ struct LayoutPlace {
 
 import UIKit
 
-class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+class MemoryViewController: UIViewController {
     private var collectionView: UICollectionView?
     private var cards = Array<LayoutPlace>()
     
-    private var firstCard: LayoutPlace?
-    private var secondCard: LayoutPlace?
+    private var selectedIndexes = Array<NSIndexPath>()
     
     private var numberOfPairs = 0
     private var numberOfGuesses = 0
@@ -43,6 +42,10 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit{
+        println("deinit")
     }
     
     override func viewDidLoad() {
@@ -66,15 +69,15 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
         let halfDeck = fullDeck.deckOfNumberOfCards(numCardsNeededDifficulty(difficulty))
         return (halfDeck + halfDeck).shuffled()
     }
-    
-    
+}
+
+extension MemoryViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return cards.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier("cardCell", forIndexPath: indexPath) as CardCell
-//        cell.backgroundColor = UIColor.clearColor()
         
         let cardCellModel = cards[indexPath.row]
         cell.renderCardName(cardCellModel.card.description, backImageName: "back")
@@ -82,96 +85,87 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
         
         return cell
     }
-    
+}
+
+extension MemoryViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as CardCell
-        
-        let cardCellModel = cards[indexPath.row]
-        if firstCard == nil {
-            firstCard = cardCellModel
-        } else if secondCard == nil {
-            secondCard = cardCellModel
-        } else {
+        if selectedIndexes.count == 2 || contains(selectedIndexes, indexPath) {
             return
         }
+        selectedIndexes.append(indexPath)
+        
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as CardCell
         cell.upturn()
         
-        
-        //        cardCellModel.covered = false
-//        self.collectionView!.reloadData()
-        
-
-        if secondCard == nil {
+        if selectedIndexes.count < 2 {
             return
         }
         numberOfGuesses++
         
-        if firstCard!.card == secondCard!.card {
-            let delay = 1.0
-            dispatch_after(
-                dispatch_time(
-                    DISPATCH_TIME_NOW,
-                    Int64(delay * Double(NSEC_PER_SEC))
-                ),
-                dispatch_get_main_queue(), {
-                    self.numberOfPairs++
-                    if self.numberOfPairs == self.cards.count/2 {
-                        var alert = UIAlertController(title: "Great!",
-                            message: "You won in \(self.numberOfGuesses) guesses!",
-                            preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
-                            self.dismissViewControllerAnimated(true, completion: nil)
-                            return
-                        }))
-                        
-                        self.presentViewController(alert, animated: true, completion: nil)
-                    }
-                    self.removeCardsAtPlaces((self.firstCard!, self.secondCard!))
-                    self.firstCard = nil
-                    self.secondCard = nil
-//                    self.collectionView!.reloadData()
-            })
-            
+        let card1 = cards[selectedIndexes[0].row].card
+        let card2 = cards[selectedIndexes[1].row].card
+        
+        if card1 == card2 {
+            checkIfFinished()
+            removeCards()
         } else {
-            
-            
-            let delay = 2.0
-            dispatch_after(
-                dispatch_time(
-                    DISPATCH_TIME_NOW,
-                    Int64(delay * Double(NSEC_PER_SEC))
-                ),
-                dispatch_get_main_queue(), {
-                    self.downturnCardsAtPlaces((self.firstCard!, self.secondCard!))
-                    self.firstCard = nil
-                    self.secondCard = nil
-//                    self.collectionView!.reloadData()
-            })
+            turnCardsFaceDown()
+        }
+    }
+}
+
+// MARK: Actions
+private extension MemoryViewController {
+    func checkIfFinished(){
+        self.numberOfPairs++
+        if self.numberOfPairs == self.cards.count/2 {
+            showFinalPopUp()
         }
     }
     
-    deinit{
-        println("deinit")
-    }
     
-    func removeCardsAtPlaces(places: (LayoutPlace, LayoutPlace)){
-        let cardCell1 = collectionView!.cellForItemAtIndexPath(NSIndexPath(forRow: places.0.index, inSection: 0)) as CardCell
-        let cardCell2 = collectionView!.cellForItemAtIndexPath(NSIndexPath(forRow: places.1.index, inSection: 0)) as CardCell
+    func showFinalPopUp() {
+        var alert = UIAlertController(title: "Great!",
+            message: "You won in \(numberOfGuesses) guesses!",
+            preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
+            self.dismissViewControllerAnimated(true, completion: nil)
+            return
+        }))
         
-        cardCell1.remove()
-        cardCell2.remove()        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func removeCards(){
+        execAfter(1.0) {
+            self.removeCardsAtPlaces(self.selectedIndexes)
+            self.selectedIndexes = Array<NSIndexPath>()
+        }
     }
     
-    func downturnCardsAtPlaces(places: (LayoutPlace, LayoutPlace)){
-        let cardCell1 = collectionView!.cellForItemAtIndexPath(NSIndexPath(forRow: places.0.index, inSection: 0)) as CardCell
-        let cardCell2 = collectionView!.cellForItemAtIndexPath(NSIndexPath(forRow: places.1.index, inSection: 0)) as CardCell
-        
-        cardCell1.downturn()
-        cardCell2.downturn()
+    func turnCardsFaceDown(){
+        execAfter(2.0) {
+            self.downturnCardsAtPlaces(self.selectedIndexes)
+            self.selectedIndexes = Array<NSIndexPath>()
+        }
     }
     
+    func removeCardsAtPlaces(places: Array<NSIndexPath>){
+        for index in selectedIndexes {
+            let cardCell = collectionView!.cellForItemAtIndexPath(index) as CardCell
+            cardCell.remove()
+        }
+    }
+    
+    func downturnCardsAtPlaces(places: Array<NSIndexPath>){
+        for index in selectedIndexes {
+            let cardCell = collectionView!.cellForItemAtIndexPath(index) as CardCell
+            cardCell.downturn()
+        }
+    }
 }
 
+// MARK: Difficulty
 private extension MemoryViewController {
     func sizeDifficulty(difficulty: Difficulty) -> (CGFloat, CGFloat) {
         switch difficulty {
@@ -190,6 +184,7 @@ private extension MemoryViewController {
     }
 }
 
+// MARK: Setup
 private extension MemoryViewController {
     func setup() {
         view.backgroundColor = UIColor.greenSea()
