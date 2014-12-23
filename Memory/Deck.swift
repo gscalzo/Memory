@@ -97,15 +97,21 @@ extension Deck: SequenceType {
     }
 }
 
-private extension Deck {
+extension Deck {
     private mutating func append(card: Card) {
         cards.append(card)
     }
-    private subscript(index: Int) -> Card {
+    subscript(index: Int) -> Card {
         get {
             return cards[index]
         }
     }
+    var count: Int {
+        get {
+            return cards.count
+        }
+    }
+
 }
 
 func +(deck1: Deck, deck2: Deck) -> Deck {

@@ -6,31 +6,12 @@
 //  Copyright (c) 2014 Swift by Example. All rights reserved.
 //
 
-
-//TODO
-//0 - handle different resolution
-//1 - pretty disappear (saving indexes?)
-//2 - remove external state for visibility (saving indexes?)
-//3 - refactor for better code
-//4 - split in small chunck
-
-struct LayoutPlace {
-    let index: Int
-    let card: Card
-    var empty: Bool
-}
-
-
-
-
 import UIKit
 
 class MemoryViewController: UIViewController {
-    private var collectionView: UICollectionView?
-    private var cards = Array<LayoutPlace>()
-    
+    private var collectionView: UICollectionView!
+    private var deck: Deck!
     private var selectedIndexes = Array<NSIndexPath>()
-    
     private var numberOfPairs = 0
     private var numberOfGuesses = 0
     private var difficulty = Difficulty.Easy
@@ -57,36 +38,35 @@ class MemoryViewController: UIViewController {
     private func start() {
         numberOfPairs = 0
         numberOfGuesses = 0
+        deck = createDeck(numCardsNeededDifficulty(difficulty))
         
-        for (index, card) in enumerate(createDeck()) {
-            cards.append(LayoutPlace(index: index, card: card, empty: false))
-        }
-        collectionView!.reloadData()
+        collectionView.reloadData()
     }
     
-    private func createDeck() -> Deck {
+    private func createDeck(numCards: Int) -> Deck {
         let fullDeck = Deck.full().shuffled()
-        let halfDeck = fullDeck.deckOfNumberOfCards(numCardsNeededDifficulty(difficulty))
+        let halfDeck = fullDeck.deckOfNumberOfCards(numCards)
         return (halfDeck + halfDeck).shuffled()
     }
 }
 
+// MARK: UICollectionViewDataSource
 extension MemoryViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cards.count
+        return deck.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier("cardCell", forIndexPath: indexPath) as CardCell
         
-        let cardCellModel = cards[indexPath.row]
-        cell.renderCardName(cardCellModel.card.description, backImageName: "back")
-        cell.hidden = cardCellModel.empty
+        let card = deck[indexPath.row]
+        cell.renderCardName(card.description, backImageName: "back")
         
         return cell
     }
 }
 
+// MARK: UICollectionViewDelegate
 extension MemoryViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if selectedIndexes.count == 2 || contains(selectedIndexes, indexPath) {
@@ -101,11 +81,12 @@ extension MemoryViewController: UICollectionViewDelegate {
             return
         }
         numberOfGuesses++
-        
-        let card1 = cards[selectedIndexes[0].row].card
-        let card2 = cards[selectedIndexes[1].row].card
+
+        let card1 = deck[selectedIndexes[0].row]
+        let card2 = deck[selectedIndexes[1].row]
         
         if card1 == card2 {
+            numberOfPairs++
             checkIfFinished()
             removeCards()
         } else {
@@ -117,8 +98,7 @@ extension MemoryViewController: UICollectionViewDelegate {
 // MARK: Actions
 private extension MemoryViewController {
     func checkIfFinished(){
-        self.numberOfPairs++
-        if self.numberOfPairs == self.cards.count/2 {
+        if numberOfPairs == deck.count/2 {
             showFinalPopUp()
         }
     }
@@ -152,14 +132,14 @@ private extension MemoryViewController {
     
     func removeCardsAtPlaces(places: Array<NSIndexPath>){
         for index in selectedIndexes {
-            let cardCell = collectionView!.cellForItemAtIndexPath(index) as CardCell
+            let cardCell = collectionView.cellForItemAtIndexPath(index) as CardCell
             cardCell.remove()
         }
     }
     
     func downturnCardsAtPlaces(places: Array<NSIndexPath>){
         for index in selectedIndexes {
-            let cardCell = collectionView!.cellForItemAtIndexPath(index) as CardCell
+            let cardCell = collectionView.cellForItemAtIndexPath(index) as CardCell
             cardCell.downturn()
         }
     }
@@ -189,11 +169,10 @@ private extension MemoryViewController {
     func setup() {
         view.backgroundColor = UIColor.greenSea()
         
-        let (columns, rows) = sizeDifficulty(difficulty)
-        
         let ratio: CGFloat = 1.452
         let space: CGFloat = 5
         
+        let (columns, rows) = sizeDifficulty(difficulty)
         let cardHeight: CGFloat = view.frame.height/rows - 2*space
         let cardWidth: CGFloat = cardHeight/ratio
         
@@ -202,19 +181,18 @@ private extension MemoryViewController {
         layout.itemSize = CGSize(width: cardWidth, height: cardHeight)
         layout.minimumLineSpacing = space
         
+        let covWidth = columns*(cardWidth + 2*space)
+        let covHeight = rows*(cardHeight + space)
         
-        let width = columns*(cardWidth + 2*space)
-        let height = rows*(cardHeight + space)
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: covWidth, height: covHeight), collectionViewLayout: layout)
+        collectionView.center = view.center
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.scrollEnabled = false
+        collectionView.registerClass(CardCell.self, forCellWithReuseIdentifier: "cardCell")
+        collectionView.backgroundColor = UIColor.clearColor()
         
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: width, height: height), collectionViewLayout: layout)
-        collectionView!.center = view.center
-        collectionView!.dataSource = self
-        collectionView!.delegate = self
-        collectionView!.scrollEnabled = false
-        collectionView!.registerClass(CardCell.self, forCellWithReuseIdentifier: "cardCell")
-        collectionView!.backgroundColor = UIColor.clearColor()
-        
-        self.view.addSubview(collectionView!)
+        self.view.addSubview(collectionView)
     }
 }
 
