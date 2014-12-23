@@ -13,7 +13,7 @@ class MemoryViewController: UIViewController {
     private var deck: Deck!
     private var selectedIndexes = Array<NSIndexPath>()
     private var numberOfPairs = 0
-    private var numberOfGuesses = 0
+    private var score = 0
     private var difficulty = Difficulty.Easy
     
     init(difficulty: Difficulty) {
@@ -37,7 +37,7 @@ class MemoryViewController: UIViewController {
     
     private func start() {
         numberOfPairs = 0
-        numberOfGuesses = 0
+        score = 0
         deck = createDeck(numCardsNeededDifficulty(difficulty))
         
         collectionView.reloadData()
@@ -80,7 +80,6 @@ extension MemoryViewController: UICollectionViewDelegate {
         if selectedIndexes.count < 2 {
             return
         }
-        numberOfGuesses++
 
         let card1 = deck[selectedIndexes[0].row]
         let card2 = deck[selectedIndexes[1].row]
@@ -90,6 +89,7 @@ extension MemoryViewController: UICollectionViewDelegate {
             checkIfFinished()
             removeCards()
         } else {
+            score++
             turnCardsFaceDown()
         }
     }
@@ -106,7 +106,7 @@ private extension MemoryViewController {
     
     func showFinalPopUp() {
         var alert = UIAlertController(title: "Great!",
-            message: "You won in \(numberOfGuesses) guesses!",
+            message: "You won with score: \(score)!",
             preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
             self.dismissViewControllerAnimated(true, completion: nil)
