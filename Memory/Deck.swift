@@ -1,5 +1,5 @@
 //
-//  Card.swift
+//  Deck.swift
 //  Memory
 //
 //  Created by Giordano Scalzo on 19/11/2014.
@@ -55,19 +55,8 @@ func ==(card1: Card, card2: Card) -> Bool {
     return card1.rank == card2.rank && card1.suit == card2.suit
 }
 
-struct Deck: SequenceType {
+struct Deck {
     private var cards = [Card]()
-    mutating func append(card: Card) {
-        cards.append(card)
-    }
-    subscript(index: Int) -> Card {
-        get {
-            return cards[index]
-        }
-    }
-    func count() -> Int {
-        return cards.count
-    }
     
     static func full() -> Deck {
         var deck = Deck()
@@ -97,12 +86,24 @@ struct Deck: SequenceType {
         }
         return Deck(cards: list)
     }
-    
-    // Sequence Protocol
+}
+
+extension Deck: SequenceType {
     func generate() -> GeneratorOf<Card> {
         var i = 0
         return GeneratorOf<Card> {
             return i >= self.cards.count ? .None : self.cards[i++]
+        }
+    }
+}
+
+private extension Deck {
+    private mutating func append(card: Card) {
+        cards.append(card)
+    }
+    private subscript(index: Int) -> Card {
+        get {
+            return cards[index]
         }
     }
 }
