@@ -68,7 +68,7 @@ struct Deck: SequenceType {
     func count() -> Int {
         return cards.count
     }
-
+    
     static func full() -> Deck {
         var deck = Deck()
         for i in Rank.Ace.rawValue...Rank.King.rawValue {

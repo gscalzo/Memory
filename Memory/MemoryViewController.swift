@@ -14,6 +14,11 @@
 //3 - refactor for better code
 //4 - split in small chunck
 
+struct LayoutPlace {
+    let index: Int
+    let card: Card
+    var empty: Bool
+}
 
 
 
@@ -22,10 +27,11 @@ import UIKit
 
 class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     private var collectionView: UICollectionView?
-    private var deck: Deck!
-    private var cardVisibility: Array<Bool>!
-    private var firstCard: CardCell?
-    private var secondCard: CardCell?
+    private var cards = Array<LayoutPlace>()
+    
+    private var firstCard: LayoutPlace?
+    private var secondCard: LayoutPlace?
+    
     private var numberOfPairs = 0
     private var numberOfGuesses = 0
     private var difficulty = Difficulty.Easy
@@ -34,7 +40,7 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
         self.difficulty = difficulty
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -48,9 +54,10 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
     private func start() {
         numberOfPairs = 0
         numberOfGuesses = 0
-
-        deck = createDeck()
-        cardVisibility = Array<Bool>(count: deck.count(), repeatedValue: true)
+        
+        for (index, card) in enumerate(createDeck()) {
+            cards.append(LayoutPlace(index: index, card: card, empty: false))
+        }
         collectionView!.reloadData()
     }
     
@@ -59,70 +66,73 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
         let halfDeck = fullDeck.deckOfNumberOfCards(numCardsNeededDifficulty(difficulty))
         return (halfDeck + halfDeck).shuffled()
     }
-
+    
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return deck.count()
+        return cards.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier("cardCell", forIndexPath: indexPath) as CardCell
-        cell.backgroundColor = UIColor.clearColor()
+//        cell.backgroundColor = UIColor.clearColor()
         
-        let card = deck[indexPath.row]
-        cell.renderCardName(card.description, backImageName: "back")
-        cell.hidden = !cardVisibility[indexPath.row]
+        let cardCellModel = cards[indexPath.row]
+        cell.renderCardName(cardCellModel.card.description, backImageName: "back")
+        cell.hidden = cardCellModel.empty
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as CardCell
-
-        let card = deck[indexPath.row]
-        cell.card = card
+        
+        let cardCellModel = cards[indexPath.row]
         if firstCard == nil {
-            firstCard = cell
+            firstCard = cardCellModel
         } else if secondCard == nil {
-            secondCard = cell
+            secondCard = cardCellModel
         } else {
             return
         }
+        cell.upturn()
         
-        cell.show()
+        
+        //        cardCellModel.covered = false
+//        self.collectionView!.reloadData()
+        
+
+        if secondCard == nil {
+            return
+        }
         numberOfGuesses++
         
-        if firstCard != nil && secondCard != nil {
-            if firstCard!.card == secondCard!.card {
-                let delay = 1.0
-                dispatch_after(
-                    dispatch_time(
-                        DISPATCH_TIME_NOW,
-                        Int64(delay * Double(NSEC_PER_SEC))
-                    ),
-                    dispatch_get_main_queue(), {
-                        self.numberOfPairs++
-                        if self.numberOfPairs == self.deck.count()/2 {
-                            var alert = UIAlertController(title: "Great!",
-                                message: "You won in \(self.numberOfGuesses/2) guesses!",
-                                preferredStyle: UIAlertControllerStyle.Alert)
-                            alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
-                                self.dismissViewControllerAnimated(true, completion: nil)
-                                return
-                            }))
-                                
-                            self.presentViewController(alert, animated: true, completion: nil)
-                        }
-                        let index1 = self.collectionView!.indexPathForCell(self.firstCard!)!.row
-                        let index2 = self.collectionView!.indexPathForCell(self.secondCard!)!.row
-                        self.cardVisibility[index1] = false
-                        self.cardVisibility[index2] = false
-                        self.firstCard = nil
-                        self.secondCard = nil
-                        self.collectionView!.reloadData()
-                })
-
-            } else {
+        if firstCard!.card == secondCard!.card {
+            let delay = 1.0
+            dispatch_after(
+                dispatch_time(
+                    DISPATCH_TIME_NOW,
+                    Int64(delay * Double(NSEC_PER_SEC))
+                ),
+                dispatch_get_main_queue(), {
+                    self.numberOfPairs++
+                    if self.numberOfPairs == self.cards.count/2 {
+                        var alert = UIAlertController(title: "Great!",
+                            message: "You won in \(self.numberOfGuesses) guesses!",
+                            preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                            return
+                        }))
+                        
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                    self.removeCardsAtPlaces((self.firstCard!, self.secondCard!))
+                    self.firstCard = nil
+                    self.secondCard = nil
+//                    self.collectionView!.reloadData()
+            })
+            
+        } else {
             
             
             let delay = 2.0
@@ -132,19 +142,34 @@ class MemoryViewController: UIViewController, UICollectionViewDelegateFlowLayout
                     Int64(delay * Double(NSEC_PER_SEC))
                 ),
                 dispatch_get_main_queue(), {
-                    self.firstCard?.hide()
-                    self.secondCard?.hide()
+                    self.downturnCardsAtPlaces((self.firstCard!, self.secondCard!))
                     self.firstCard = nil
                     self.secondCard = nil
+//                    self.collectionView!.reloadData()
             })
-            }
         }
-        
     }
     
     deinit{
         println("deinit")
     }
+    
+    func removeCardsAtPlaces(places: (LayoutPlace, LayoutPlace)){
+        let cardCell1 = collectionView!.cellForItemAtIndexPath(NSIndexPath(forRow: places.0.index, inSection: 0)) as CardCell
+        let cardCell2 = collectionView!.cellForItemAtIndexPath(NSIndexPath(forRow: places.1.index, inSection: 0)) as CardCell
+        
+        cardCell1.remove()
+        cardCell2.remove()        
+    }
+    
+    func downturnCardsAtPlaces(places: (LayoutPlace, LayoutPlace)){
+        let cardCell1 = collectionView!.cellForItemAtIndexPath(NSIndexPath(forRow: places.0.index, inSection: 0)) as CardCell
+        let cardCell2 = collectionView!.cellForItemAtIndexPath(NSIndexPath(forRow: places.1.index, inSection: 0)) as CardCell
+        
+        cardCell1.downturn()
+        cardCell2.downturn()
+    }
+    
 }
 
 private extension MemoryViewController {
