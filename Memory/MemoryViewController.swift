@@ -14,7 +14,7 @@ class MemoryViewController: UIViewController {
     private var selectedIndexes = Array<NSIndexPath>()
     private var numberOfPairs = 0
     private var score = 0
-    private var difficulty = Difficulty.Easy
+    private let difficulty: Difficulty
     
     init(difficulty: Difficulty) {
         self.difficulty = difficulty
