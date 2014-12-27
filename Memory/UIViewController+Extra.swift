@@ -1,5 +1,5 @@
 //
-//  UIViewContreller+Extra.swift
+//  UIViewController+Extra.swift
 //  Memory
 //
 //  Created by Giordano Scalzo on 23/12/2014.

@@ -9,19 +9,17 @@
 import UIKit
 
 class CardCell: UICollectionViewCell {
-    private let imageView: UIImageView!
+    private let frontImageView: UIImageView!
     private var cardImageName: String!
     private var backImageName: String!
-    
-    var card: Card!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        imageView = UIImageView(frame: CGRect(x: 0, y: 0,
+        frontImageView = UIImageView(frame: CGRect(x: 0, y: 0,
             width: frame.size.width,
             height: frame.size.height))
-        contentView.addSubview(imageView)
+        contentView.addSubview(frontImageView)
         contentView.backgroundColor = UIColor.clearColor()
     }
 
@@ -32,7 +30,7 @@ class CardCell: UICollectionViewCell {
     func renderCardName(cardImageName: String, backImageName: String){
         self.cardImageName = cardImageName
         self.backImageName = backImageName
-        self.imageView.image = UIImage(named: self.backImageName)
+        frontImageView.image = UIImage(named: self.backImageName)
     }
     
     func upturn() {
@@ -40,7 +38,7 @@ class CardCell: UICollectionViewCell {
             duration: 1,
             options: .TransitionFlipFromRight,
             animations: {
-                self.imageView.image = UIImage(named: self.cardImageName)
+                self.frontImageView.image = UIImage(named: self.cardImageName)
             },
             completion: nil)
     }
@@ -50,7 +48,7 @@ class CardCell: UICollectionViewCell {
             duration: 1,
             options: .TransitionFlipFromLeft,
             animations: {
-                self.imageView.image = UIImage(named: self.backImageName)
+                self.frontImageView.image = UIImage(named: self.backImageName)
             },
             completion: nil)
     }
