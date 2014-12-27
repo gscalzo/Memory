@@ -7,6 +7,22 @@
 //
 import Foundation
 
+enum Suit: Printable {
+    case Spades, Hearts, Diamonds, Clubs
+    var description: String {
+        switch self {
+        case .Spades:
+            return "spades"
+        case .Hearts:
+            return "hearts"
+        case .Diamonds:
+            return "diamonds"
+        case .Clubs:
+            return "clubs"
+        }
+    }
+}
+
 enum Rank: Int, Printable {
     case Ace = 1
     case Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
@@ -27,21 +43,6 @@ enum Rank: Int, Printable {
     }
 }
 
-enum Suit: Printable {
-    case Spades, Hearts, Diamonds, Clubs
-    var description: String {
-        switch self {
-        case .Spades:
-            return "spades"
-        case .Hearts:
-            return "hearts"
-        case .Diamonds:
-            return "diamonds"
-        case .Clubs:
-            return "clubs"
-        }
-    }
-}
 
 struct Card: Printable, Equatable {
     private let rank: Rank
@@ -62,7 +63,8 @@ struct Deck {
         var deck = Deck()
         for i in Rank.Ace.rawValue...Rank.King.rawValue {
             for suit in [Suit.Spades, .Hearts, .Clubs, .Diamonds] {
-                let card = Card(rank: Rank(rawValue: i)!, suit: suit)
+                let card = Card(rank: Rank(rawValue: i)!,
+                    suit: suit)
                 deck.append(card)
             }
         }
@@ -70,11 +72,7 @@ struct Deck {
     }
 
     func deckOfNumberOfCards(num: Int) -> Deck {
-        var newDeck = Deck()
-        for i in 0..<num {
-            newDeck.append(self[i])
-        }
-        return newDeck
+        return Deck(cards: Array(cards[0..<num]))
     }
     
     // Fisher-Yates (fast and uniform) shuffle
@@ -85,15 +83,6 @@ struct Deck {
             swap(&list[i], &list[j])
         }
         return Deck(cards: list)
-    }
-}
-
-extension Deck: SequenceType {
-    func generate() -> GeneratorOf<Card> {
-        var i = 0
-        return GeneratorOf<Card> {
-            return i >= self.cards.count ? .None : self.cards[i++]
-        }
     }
 }
 
@@ -115,9 +104,5 @@ extension Deck {
 }
 
 func +(deck1: Deck, deck2: Deck) -> Deck {
-    var result = deck1
-    for card in deck2 {
-        result.append(card)
-    }
-    return result
+    return Deck(cards: deck1.cards + deck2.cards)
 }
