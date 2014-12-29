@@ -58,7 +58,12 @@ extension ViewController {
     }
     
     func newGameDifficulty(difficulty: Difficulty) {
-        let gameViewController = MemoryViewController(difficulty: difficulty)
-        presentViewController(gameViewController, animated: true, completion: nil)
-    }
+        switch difficulty {
+        case .Easy:
+            println("Easy")
+        case .Medium:
+            println("Medium")
+        case .Hard:
+            println("Hard")
+        }    }
 }

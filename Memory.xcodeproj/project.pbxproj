@@ -9,15 +9,11 @@
 /* Begin PBXBuildFile section */
 		EE8142051A48741800B5E1C3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8142041A48741800B5E1C3 /* ViewController.swift */; };
 		EE8142071A487CBB00B5E1C3 /* UIColor+Flat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8142061A487CBB00B5E1C3 /* UIColor+Flat.swift */; };
-		EE8142091A49BF5100B5E1C3 /* UIViewController+Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8142081A49BF5100B5E1C3 /* UIViewController+Extra.swift */; };
 		EEBAF3FA1A1BE54700229B37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBAF3F91A1BE54700229B37 /* AppDelegate.swift */; };
-		EEBAF3FC1A1BE54700229B37 /* MemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBAF3FB1A1BE54700229B37 /* MemoryViewController.swift */; };
 		EEBAF3FF1A1BE54700229B37 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EEBAF3FD1A1BE54700229B37 /* Main.storyboard */; };
 		EEBAF4011A1BE54700229B37 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEBAF4001A1BE54700229B37 /* Images.xcassets */; };
 		EEBAF4041A1BE54700229B37 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEBAF4021A1BE54700229B37 /* LaunchScreen.xib */; };
 		EEBAF4101A1BE54700229B37 /* MemoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBAF40F1A1BE54700229B37 /* MemoryTests.swift */; };
-		EEBAF41A1A1BF6C300229B37 /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBAF4191A1BF6C300229B37 /* CardCell.swift */; };
-		EEE4C1711A1CE2BF0088AD6F /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE4C1701A1CE2BF0088AD6F /* Deck.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,19 +29,15 @@
 /* Begin PBXFileReference section */
 		EE8142041A48741800B5E1C3 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EE8142061A487CBB00B5E1C3 /* UIColor+Flat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Flat.swift"; sourceTree = "<group>"; };
-		EE8142081A49BF5100B5E1C3 /* UIViewController+Extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extra.swift"; sourceTree = "<group>"; };
 		EEBAF3F41A1BE54700229B37 /* Memory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEBAF3F81A1BE54700229B37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EEBAF3F91A1BE54700229B37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EEBAF3FB1A1BE54700229B37 /* MemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryViewController.swift; sourceTree = "<group>"; };
 		EEBAF3FE1A1BE54700229B37 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EEBAF4001A1BE54700229B37 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EEBAF4031A1BE54700229B37 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		EEBAF4091A1BE54700229B37 /* MemoryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MemoryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEBAF40E1A1BE54700229B37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EEBAF40F1A1BE54700229B37 /* MemoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryTests.swift; sourceTree = "<group>"; };
-		EEBAF4191A1BF6C300229B37 /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
-		EEE4C1701A1CE2BF0088AD6F /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,14 +82,10 @@
 				EEBAF3F91A1BE54700229B37 /* AppDelegate.swift */,
 				EE8142061A487CBB00B5E1C3 /* UIColor+Flat.swift */,
 				EE8142041A48741800B5E1C3 /* ViewController.swift */,
-				EEBAF3FB1A1BE54700229B37 /* MemoryViewController.swift */,
-				EEBAF4191A1BF6C300229B37 /* CardCell.swift */,
-				EEE4C1701A1CE2BF0088AD6F /* Deck.swift */,
 				EEBAF3FD1A1BE54700229B37 /* Main.storyboard */,
 				EEBAF4001A1BE54700229B37 /* Images.xcassets */,
 				EEBAF4021A1BE54700229B37 /* LaunchScreen.xib */,
 				EEBAF3F71A1BE54700229B37 /* Supporting Files */,
-				EE8142081A49BF5100B5E1C3 /* UIViewController+Extra.swift */,
 			);
 			path = Memory;
 			sourceTree = "<group>";
@@ -228,12 +216,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE8142051A48741800B5E1C3 /* ViewController.swift in Sources */,
-				EEBAF3FC1A1BE54700229B37 /* MemoryViewController.swift in Sources */,
 				EEBAF3FA1A1BE54700229B37 /* AppDelegate.swift in Sources */,
-				EEBAF41A1A1BF6C300229B37 /* CardCell.swift in Sources */,
-				EE8142091A49BF5100B5E1C3 /* UIViewController+Extra.swift in Sources */,
 				EE8142071A487CBB00B5E1C3 /* UIColor+Flat.swift in Sources */,
-				EEE4C1711A1CE2BF0088AD6F /* Deck.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
