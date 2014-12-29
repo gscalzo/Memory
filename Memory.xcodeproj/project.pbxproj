@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		EE11B1851A51C65200F5BE3C /* MemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE11B1841A51C65200F5BE3C /* MemoryViewController.swift */; };
+		EE11B1871A51C9D200F5BE3C /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE11B1861A51C9D200F5BE3C /* Deck.swift */; };
+		EE11B1891A51C9E700F5BE3C /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE11B1881A51C9E700F5BE3C /* CardCell.swift */; };
 		EE8142051A48741800B5E1C3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8142041A48741800B5E1C3 /* ViewController.swift */; };
 		EE8142071A487CBB00B5E1C3 /* UIColor+Flat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8142061A487CBB00B5E1C3 /* UIColor+Flat.swift */; };
 		EEBAF3FA1A1BE54700229B37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBAF3F91A1BE54700229B37 /* AppDelegate.swift */; };
@@ -29,6 +31,8 @@
 
 /* Begin PBXFileReference section */
 		EE11B1841A51C65200F5BE3C /* MemoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryViewController.swift; sourceTree = "<group>"; };
+		EE11B1861A51C9D200F5BE3C /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
+		EE11B1881A51C9E700F5BE3C /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
 		EE8142041A48741800B5E1C3 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EE8142061A487CBB00B5E1C3 /* UIColor+Flat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Flat.swift"; sourceTree = "<group>"; };
 		EEBAF3F41A1BE54700229B37 /* Memory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memory.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +85,8 @@
 		EEBAF3F61A1BE54700229B37 /* Memory */ = {
 			isa = PBXGroup;
 			children = (
+				EE11B1861A51C9D200F5BE3C /* Deck.swift */,
+				EE11B1881A51C9E700F5BE3C /* CardCell.swift */,
 				EEBAF3F91A1BE54700229B37 /* AppDelegate.swift */,
 				EE8142061A487CBB00B5E1C3 /* UIColor+Flat.swift */,
 				EE8142041A48741800B5E1C3 /* ViewController.swift */,
@@ -220,8 +226,10 @@
 			files = (
 				EE8142051A48741800B5E1C3 /* ViewController.swift in Sources */,
 				EE11B1851A51C65200F5BE3C /* MemoryViewController.swift in Sources */,
+				EE11B1871A51C9D200F5BE3C /* Deck.swift in Sources */,
 				EEBAF3FA1A1BE54700229B37 /* AppDelegate.swift in Sources */,
 				EE8142071A487CBB00B5E1C3 /* UIColor+Flat.swift in Sources */,
+				EE11B1891A51C9E700F5BE3C /* CardCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@ import UIKit
 
 class MemoryViewController: UIViewController {
     private var collectionView: UICollectionView!
-    private var deck: Array<Int>!
+    private var deck: Deck!
     private let difficulty: Difficulty
     
     init(difficulty: Difficulty) {
@@ -33,8 +33,17 @@ class MemoryViewController: UIViewController {
     }
     
     private func start() {
-        deck = Array<Int>(count: numCardsNeededDifficulty(difficulty), repeatedValue: 1)
+        deck = createDeck(numCardsNeededDifficulty(difficulty))
+        for i in 0..<deck.count  {
+            println("The card at index [\(i)] is [\(deck[i].description)]")
+        }
         collectionView.reloadData()
+    }
+    
+    private func createDeck(numCards: Int) -> Deck {
+        let fullDeck = Deck.full().shuffled()
+        let halfDeck = fullDeck.deckOfNumberOfCards(numCards/2)
+        return (halfDeck + halfDeck).shuffled()
     }
 }
 
