@@ -66,7 +66,7 @@ struct Deck {
                          .Clubs, .Diamonds] {
                 let card = Card(rank: Rank(rawValue: i)!,
                     suit: suit)
-                deck.append(card)
+                deck.cards.append(card)
             }
         }
         return deck
@@ -88,10 +88,6 @@ struct Deck {
 }
 
 extension Deck {
-    private mutating func append(card: Card) {
-        cards.append(card)
-    }
-    
     subscript(index: Int) -> Card {
         get {
             return cards[index]

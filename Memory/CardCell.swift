@@ -14,10 +14,10 @@ class CardCell: UICollectionViewCell {
     private var backImageName: String!
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
         frontImageView = UIImageView(frame: CGRect(x: 0, y: 0,
             width: frame.size.width,
             height: frame.size.height))
+        super.init(frame: frame)
         contentView.addSubview(frontImageView)
         contentView.backgroundColor = UIColor.clearColor()
     }
