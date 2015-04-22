@@ -57,7 +57,7 @@ extension MemoryViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView,
         cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
             var cell = collectionView.dequeueReusableCellWithReuseIdentifier("cardCell",
-                forIndexPath: indexPath) as UICollectionViewCell
+                forIndexPath: indexPath) as! UICollectionViewCell
             
             cell.backgroundColor = UIColor.sunflower()
             return cell
