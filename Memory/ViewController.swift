@@ -23,15 +23,15 @@ private extension ViewController {
     func setup() {
         view.backgroundColor = UIColor.greenSea()
         
-        buildButtonWithCenter(CGPoint(x: view.center.x, y: view.center.y/2.0),
+        buildButtonCenter(CGPoint(x: view.center.x, y: view.center.y/2.0),
             title: "EASY", color: UIColor.emerald(), action: "onEasyTapped:")
-        buildButtonWithCenter(CGPoint(x: view.center.x, y: view.center.y),
+        buildButtonCenter(CGPoint(x: view.center.x, y: view.center.y),
             title: "MEDIUM", color: UIColor.sunflower(), action: "onMediumTapped:")
-        buildButtonWithCenter(CGPoint(x: view.center.x, y: view.center.y*3.0/2.0),
+        buildButtonCenter(CGPoint(x: view.center.x, y: view.center.y*3.0/2.0),
             title: "HARD", color: UIColor.alizarin(), action: "onHardTapped:")
     }
 
-    func buildButtonWithCenter(center: CGPoint, title: String, color: UIColor, action: Selector) {
+    func buildButtonCenter(center: CGPoint, title: String, color: UIColor, action: Selector) {
         let button = UIButton()
         button.setTitle(title, forState: .Normal)
         
@@ -58,12 +58,7 @@ extension ViewController {
     }
     
     func newGameDifficulty(difficulty: Difficulty) {
-        switch difficulty {
-        case .Easy:
-            println("Easy")
-        case .Medium:
-            println("Medium")
-        case .Hard:
-            println("Hard")
-        }    }
+        let gameViewController = MemoryViewController(difficulty: difficulty)
+        presentViewController(gameViewController, animated: true, completion: nil)
+    }
 }
